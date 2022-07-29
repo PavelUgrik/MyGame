@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Редактирование оружия</title>
+    <th:block th:replace="~{fragments/main_fragments :: link}"></th:block>
+</head>
+<body>
+<header>
+    <div th:replace="~{fragments/main_fragments :: navigation}"></div>
+</header>
+
+<div class="container">
+    <h3 class="text-center">Редактирование персонажей</h3>
+
+    <!--/*@thymesVar id="user" type="ru.laurelin.game.models.user.User"*/-->
+    <form method="post" th:action="@{/ap/users/{id}/update(id=${user.id})}" th:object="${user}">
+        <div class="row w-50 mx-auto">
+            <label class="col-sm-2 col-form-label" for="id" th:text="'ИД:'"/>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" disabled id="id"
+                       name="id"
+                       th:field="*{id}"
+                       type="text">
+            </div>
+
+            <label class="col-sm-2 col-form-label" for="username" th:text="'Никнейм:'"/>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" id="username"
+                       name="username"
+                       th:field="*{username}"
+                       type="text">
+            </div>
+
+            <label class="col-sm-2 col-form-label" for="password" th:text="'Пароль:'"/>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" id="password"
+                       name="password"
+                       type="text">
+            </div>
+
+            <label class="col-sm-2 col-form-label" for="role" th:text="'Роль:'"/>
+            <div class="col-sm-10" id="role">
+                <div class="form-check" th:each="role : ${rolesList}">
+                    <input class="form-check-input"
+                           th:checked="${#sets.contains(user.roles, role)}"
+                           th:field="*{roles}"
+                           th:id="${role} + '_Role'"
+                           th:value="${role}"
+                           type="checkbox">
+                    <label class="form-check-label" th:for="${role} + '_Role'" th:text="${role}"/>
+                </div>
+            </div>
+
+
+            <div class="text-center">
+                <button class="btn btn-primary m-3" type="submit">
+                    Сохранить
+                </button>
+                <a class="btn btn-secondary m-3" th:href="@{/ap/users}">Вернутся</a>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!--<script th:src="@{/js/script.js}"></script>-->
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная</title>
+    <th:block th:replace="~{fragments/main_fragments :: link}"></th:block>
+</head>
+<body>
+<header>
+    <div th:replace="~{fragments/main_fragments :: navigation}"></div>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <div class="row">
+                <div class="col-6 text-center">
+                    <h6 th:text="${owner.username}"></h6>
+                    <div class="progress position-relative">
+                        <div class="progress-bar"
+                             th:classappend="${ownerPercent < 33 } ? 'bg-danger' : (${ownerPercent < 66 } ? 'bg-warning' : 'bg-success')"
+                             th:style="'width:'+${ownerPercent}+'%'"
+                        ></div>
+                        <small class="justify-content-center d-flex position-absolute w-100"><b
+                                th:text="${owner.hp} + '/' + ${owner.maxHp}"></b></small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h6>Характеристики</h6>
+                    <p class="p-0 m-0" th:text="'Сила: ' + ${owner.strength}">Сила:</p>
+                    <p class="p-0 m-0" th:text="'Ловкость: ' + ${owner.dexterity}">Сила:</p>
+                    <p class="p-0 m-0" th:text="'Интелект: ' + ${owner.intelligence}">Сила:</p>
+                    <p class="p-0 m-0" th:text="'Выносливость: ' + ${owner.stamina}">Сила:</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-4 text-center">
+            <div th:if="${combat.status.name() == 'FINISHED'}">
+                <p th:if="${combat.winner == null}">Бой Окончен. Ничья.</p>
+                <p th:text="'Бой окончен. Победил: '+ ${combat.winner.username}"
+                   th:unless="${combat.winner == null}"></p>
+                <p><a th:href="@{/}">Вернуться</a></p>
+            </div>
+            <div th:unless="${combat.status.name() == 'FINISHED'}">
+                <a class="btn btn-primary btn-sm" th:href="@{/combats/{id}(id=${combat.id})}"
+                   th:if="${isDoStep}">Обновить</a>
+                <form method="post" th:action="@{/combats/{id}(id=${combat.id})}" th:object="${step}"
+                      th:unless="${isDoStep}">
+                    <!--                <input class="form-check-input" hidden id="combat_id" th:value="${combat.id}" type="text">-->
+                    <input class="form-check-input" hidden id="attacker_id" name="attacker_id" th:value="${owner.id}"
+                           type="text">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-check form-check-reverse">
+                                <input class="form-check-input" id="attack1" name="attack" th:field="*{attack}"
+                                       th:value="${T(ru.laurelin.game.models.combat.Zone).HEAD}" type="radio">
+                                <label class="form-check-label" for="attack1">Удар в голову</label>
+                            </div>
+                            <div class="form-check form-check-reverse">
+                                <input class="form-check-input" id="attack2" name="attack" th:field="*{attack}"
+                                       th:value="${T(ru.laurelin.game.models.combat.Zone).BODY}" type="radio">
+                                <label class="form-check-label" for="attack2">Удар в грудь</label>
+                            </div>
+                            <div class="form-check form-check-reverse">
+                                <input class="form-check-input" id="attack3" name="attack" th:field="*{attack}"
+                                       th:value="${T(ru.laurelin.game.models.combat.Zone).LEGS}" type="radio">
+                                <label class="form-check-label" for="attack3">Удар по ногам</label>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="form-check">
+                                <input class="form-check-input" id="defense1" name="defense" th:field="*{defense}"
+                                       th:value="${T(ru.laurelin.game.models.combat.Zone).HEAD}" type="radio">
+                                <label class="form-check-label" for="defense1">Защита головы</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" id="defense2" name="defense" th:field="*{defense}"
+                                       th:value="${T(ru.laurelin.game.models.combat.Zone).BODY}" type="radio">
+                                <label class="form-check-label" for="defense2">Защита груди</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" id="defense3" name="defense" th:field="*{defense}"
+                                       th:value="${T(ru.laurelin.game.models.combat.Zone).LEGS}" type="radio">
+                                <label class="form-check-label" for="defense3">Защита ног</label>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button class="btn btn-primary btn-sm" type="submit">Сделать ход</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="row">
+                <div class="col-6 text-center">
+                    <h6 th:text="${opponent.username}"></h6>
+                    <div class="progress position-relative">
+                        <div class="progress-bar"
+                             th:classappend="${opponentPercent < 33 } ? 'bg-danger' : (${opponentPercent < 66 } ? 'bg-warning' : 'bg-success')"
+                             th:style="'width:'+${opponentPercent}+'%'"
+                        ></div>
+                        <small class="justify-content-center d-flex position-absolute w-100"><b
+                                th:text="${opponent.hp} + '/' + ${opponent.maxHp}"></b></small>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h6>Характеристики</h6>
+                    <p class="p-0 m-0" th:text="'Сила: ' + ${opponent.strength}">Сила:</p>
+                    <p class="p-0 m-0" th:text="'Ловкость: ' + ${opponent.dexterity}">Сила:</p>
+                    <p class="p-0 m-0" th:text="'Интелект: ' + ${opponent.intelligence}">Сила:</p>
+                    <p class="p-0 m-0" th:text="'Выносливость: ' + ${opponent.stamina}">Сила:</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

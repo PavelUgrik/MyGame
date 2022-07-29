@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header th:fragment="navigation">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                    class="navbar-toggler" data-bs-target="#navbarSupportedContent"
+                    data-bs-toggle="collapse"
+                    type="button">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Главная</a>
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/combats}">Поединки</a>
+
+                    </li>
+                    <li class="nav-item dropdown" sec:authorize="hasAuthority('ADMIN')">
+                        <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                           role="button">Админка</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" th:href="@{/ap/users}">Панель игроков</a></li>
+                            <li><a class="dropdown-item" th:href="@{/ap/items}">Панель оружия</a></li>
+                        </ul>
+                </ul>
+                <form class="d-flex" method="post" th:action="@{/auth/logout}">
+                    <button class="btn btn-secondary btn-sm" type="submit">Выйти</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8">
+
+    <title>Вход в игру</title>
+    <th:block th:replace="~{fragments/main_fragments :: link}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/floating-labels.css}" type="text/css">
+</head>
+
+<body>
+
+<form class="form-signin" method="post" th:action="@{/auth/login}">
+    <div class="text-center mb-4">
+        <h1 class="h3 mb-3 font-weight-normal">Вход в Игру</h1>
+        <p>Впервые тут ? <a th:href="@{/auth/registration}">Зарегистрируйтесь</a>.</p>
+    </div>
+
+    <div class="alert alert-danger" role="alert" th:if="${param.error}">
+        Неверные логин или пароль.
+    </div>
+    <div class="alert alert-success" role="alert" th:if="${param.logout}">
+        Вы успешно вышли.
+    </div>
+
+    <div class="form-label-group">
+        <input autofocus class="form-control" id="username" name="username" placeholder="login" type="text">
+        <label for="username">Логин</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" id="password" name="password" placeholder="Password" type="password">
+        <label for="password">Пароль</label>
+    </div>
+
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Вход</button>
+    <p class="mt-5 mb-3 text-muted text-center">&copy; 2020</p>
+</form>
+
+</body>
+</html>

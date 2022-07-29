@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Поединки</title>
+    <th:block th:replace="~{fragments/main_fragments :: link}"></th:block>
+</head>
+<body>
+<header>
+    <div th:replace="~{fragments/main_fragments :: navigation}"></div>
+</header>
+<div class="container">
+    <form class="text-center" method="post" th:action="@{/combats/new}"
+          th:if="${isRegCombat} == false"
+          th:object="${newCombat}">
+        <!--/*@thymesVar id="combatTypes" type="ru.laurelin.game.models.combat.CombatType"*/-->
+        <div class="form-check form-check-inline" th:each="type : ${combatTypes}">
+            <input class="form-check-input"
+                   name="combatsType"
+                   th:field="*{type}"
+                   th:id="${type}"
+                   th:value="${type}"
+                   type="radio">
+            <label class="form-check-label" th:for="${type}" th:text="${type.type}"/>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <button class="btn btn-success btn-sm" type="submit">Подать заявку</button>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-12" th:each="combat : ${combatsList}">
+            <form method="post" th:action="@{/combats/{id}/join(id=${combat.id})}">
+                <span th:text="${#temporals.format(combat.created, 'dd-MM-yyyy HH:mm:ss')} + ' ' + ${combat.type.type} + ' ' + ${combat.owner.username}"/>
+                <button class="btn btn-secondary btn-sm"
+                        th:if="${combat.owner} eq ${user}"
+                        type="submit">Отмениь
+                </button>
+                <button class="btn btn-secondary btn-sm"
+                        th:unless="${combat.owner} eq ${user}"
+                        type="submit">Вступить
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

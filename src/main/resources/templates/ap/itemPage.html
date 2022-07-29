@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <title>Панель снаряжения</title>
+    <th:block th:replace="~{fragments/main_fragments :: link}"></th:block>
+</head>
+<body>
+<header>
+    <div th:replace="~{fragments/main_fragments :: navigation}"></div>
+</header>
+
+<div class="container w-50 text-center ">
+    <h3 class="text-center ">Спискок снаряжения</h3>
+    <a class="btn btn-success m-2" th:href="@{/ap/items/new}">Добавить новое снаряжение</a>
+    <table class="table-bordered w-100 text-center">
+        <thead>
+        <tr>
+            <th class="w-75" rowspan="2">Название</th>
+            <th class="w-25" colspan="2">Действие</th>
+        </tr>
+        <tr>
+            <th>Редактировать</th>
+            <th>Удалить</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="align-middle" th:each="item : ${itemsList}">
+            <td class="text-start align-middle p-1" th:text="${item.name}"></td>
+            <td class="p-1"><a class="btn btn-primary btn-sm"
+                               th:href="@{/ap/items/{id}/edit(id=${item.id})}">Редактировать</a></td>
+            <td class="p-1">
+                <form method="post" th:action="@{/ap/items/{id}/delete(id=${item.id})}">
+                    <button class="btn btn-danger btn-sm" type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--<script th:src="@{/js/script.js}"></script>-->
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

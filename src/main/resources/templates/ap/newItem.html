@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <title>Добавление нового снаряжения</title>
+    <th:block th:replace="~{fragments/main_fragments :: link}"></th:block>
+</head>
+<body>
+<header>
+    <div th:replace="~{fragments/main_fragments :: navigation}"></div>
+</header>
+
+<div class="container">
+    <h3 class="text-center">Добавление нового снаряжения</h3>
+    <!--/*@thymesVar id="gameItem" type="ru.laurelin.game.models.Equipment"*/-->
+    <form method="post"
+          th:action="@{/ap/items/new}"
+          th:object="${gameItem}">
+        <div class="row w-50 mx-auto">
+
+            <label class="col-sm-2 col-form-label" for="slot">Тип:</label>
+            <div class="col-sm-10">
+                <select class="form-select form-select-sm"
+                        id="itemType" th:field="*{itemType}">
+                    <!--/*@thymesVar id="itemTypesList" type="ru.laurelin.game.models.ItemType"*/-->
+                    <option th:each="type : ${itemTypesList}"
+                            th:text="${type}"
+                            th:value="${type}">
+                    </option>
+                </select>
+            </div>
+
+            <label class="col-sm-2 col-form-label" for="slot">Слот:</label>
+            <div class="col-sm-10">
+                <select class="form-select form-select-sm" id="slot"
+                        th:field="*{slot}">
+                    <!--/*@thymesVar id="slotsList" type="ru.laurelin.game.models.user.Slot"*/-->
+                    <option th:each="slot : ${slotsList}"
+                            th:text="${slot}"
+                            th:value="${slot}">
+                    </option>
+                </select>
+            </div>
+
+            <label class="col-sm-2 col-form-label" for="name">Название:</label>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" id="name" name="name" th:field="*{name}" type="text">
+            </div>
+
+            <label class="col-sm-2 col-form-label" for="price">Цена:</label>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" id="price" name="price" th:field="*{price}"
+                       type="text">
+            </div>
+
+            <label class="col-sm-2 col-form-label" for="damage">Урон:</label>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" id="damage" name="damage" th:field="*{damage}"
+                       type="text">
+            </div>
+
+            <label class="col-sm-2 col-form-label" for="armor">Броня:</label>
+            <div class="col-sm-10">
+                <input class="form-control form-control-sm" id="armor" name="armor" th:field="*{armor}"
+                       type="text">
+            </div>
+
+
+            <div class="text-center">
+                <button class="btn btn-primary m-3" type="submit">
+                    Добавить
+                </button>
+                <a class="btn btn-secondary m-3" th:href="@{/ap/items}">Вернутся</a>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

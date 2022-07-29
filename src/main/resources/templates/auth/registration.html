@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+>
+<head>
+    <meta charset="utf-8">
+
+    <title>Регистрация нового пользователя</title>
+    <th:block th:replace="~{fragments/main_fragments :: link}"></th:block>
+    <link rel="stylesheet" th:href="@{/css/floating-labels.css}" type="text/css">
+</head>
+
+<body>
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<!--/*@thymesVar id="user" type="ru.laurelin.game.models.user.User"*/-->
+<form class="form-signin" method="post" th:action="@{/auth/registration}" th:object="${user}">
+    <div class="text-center mb-4">
+        <h1 class="h3 mb-3 font-weight-normal">Регистрация нового пользователя</h1>
+        <p>Уже зарегистрированы ? <a th:href="@{/auth/login}">Войти</a>.</p>
+    </div>
+    <div class="form-label-group">
+        <input autofocus class="form-control" id="username" name="username" placeholder="username" required
+               th:value="*{username}" type="text">
+        <label for="username">Игровой ник</label>
+    </div>
+
+    <div class="form-label-group">
+        <input autofocus class="form-control" id="email" name="email" placeholder="email" required th:value="*{email}"
+               type="email">
+        <label for="email">Почта</label>
+    </div>
+
+    <div class="form-label-group">
+        <input class="form-control" id="password" name="password" placeholder="Password" required th:value="*{password}"
+               type="password">
+        <label for="password">Пароль</label>
+    </div>
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
+</form>
+
+</body>
+</html>
